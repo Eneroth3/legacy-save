@@ -43,6 +43,8 @@ module LegacySave
     
     version = version_param(version(path))
     Sketchup.active_model.save(path, version)
+  rescue => e
+    UI.messagebox("Save Error\n\n#{e.message}")
   end
   
   # Add menu item at custom position in menu.

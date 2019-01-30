@@ -29,15 +29,15 @@ module LegacySave
     Sketchup::Model.const_get("VERSION_#{major_version}")
   end
   
-  # Save the model in the version it was previously saved to.
+  # Save the model in the version it was previously saved to, or open save
+  # panel.
   #
   # @return [Void]
   def self.legacy_save
     path = Sketchup.active_model.path
     
     if path.empty?
-      # TODO: Bring up native save as dialog.
-      UI.messagebox("I'm the native save panel!")
+      Sketchup.send_action('saveDocument:')
       return
     end
     

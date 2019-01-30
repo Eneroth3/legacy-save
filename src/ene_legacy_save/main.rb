@@ -67,12 +67,32 @@ module LegacySave
     end
   end
   
+  # Get index to place Save in Legacy Format entry at.
+  #
+  # @return [Integer]
+  def self.menu_index
+    # Entry should be placed in File menu after all native save related entries,
+    # but before revert.
+    position = 7
+    
+    # Move one step down if Eneroth Open Newer Version is present, as its entry
+    # is located further up in the Open section.
+    # Note that this is not a general solution that accounts for any other
+    # extension, only Eneroth open Newer Version.
+    if defined?(Eneroth::OpenNewerVersion) && Eneroth::OpenNewerVersion::EXTENSION.loaded?
+      position += 1 
+    end
+    
+    position += 1 if Sketchup.version.to_i > 18
+    
+    position
+  end
+  
   unless @loaded
     @loaded = true
     
     menu = UI.menu("File")
-    # Position menu entry at the end of all save related entries, before revert.
-    add_menu_item(menu, "Save in Legacy Format", 9) { legacy_save }
+    add_menu_item(menu, "Save in Legacy Format", menu_index) { legacy_save }
   end
   
 end

@@ -19,34 +19,34 @@ module LegacySave
   # @param version [String]
   #
   # @return [Object]
-  def self.version_param(version)    
+  def self.version_param(version)
     major_version = version.to_i
-    
+
     major_version += 2000 if major_version > 8
-    
+
     # Assume the constants Sketchup::Model::VERSION_XXXX, where XXXX is the
     # major version number, will be made available for all future versions too.
     Sketchup::Model.const_get("VERSION_#{major_version}")
   end
-  
+
   # Save the model in the version it was previously saved to, or open save
   # panel.
   #
   # @return [Void]
   def self.legacy_save
     path = Sketchup.active_model.path
-    
+
     if path.empty?
-      Sketchup.send_action('saveDocument:')
+      Sketchup.send_action("saveDocument:")
       return
     end
-    
+
     version = version_param(version(path))
     Sketchup.active_model.save(path, version)
-  rescue => e
+  rescue StandardError => e
     UI.messagebox("Save Error\n\n#{e.message}")
   end
-  
+
   # Add menu item at custom position in menu.
   #
   # The custom position is only used in SketchUp for Windows version 2016 and
@@ -66,7 +66,7 @@ module LegacySave
       menu.add_item(name, &block)
     end
   end
-  
+
   # Get index to place Save in Legacy Format entry at.
   #
   # @return [Integer]
@@ -74,26 +74,26 @@ module LegacySave
     # Entry should be placed in File menu after all native save related entries,
     # but before revert.
     position = 7
-    
+
     # Move one step down if Eneroth Open Newer Version is present, as its entry
     # is located further up in the Open section.
     # Note that this is not a general solution that accounts for any other
     # extension, only Eneroth open Newer Version.
     if defined?(Eneroth::OpenNewerVersion) && Eneroth::OpenNewerVersion::EXTENSION.loaded?
-      position += 1 
+      position += 1
     end
-    
+
     position += 1 if Sketchup.version.to_i > 18
-    
+
     position
   end
-  
+
   unless @loaded
     @loaded = true
-    
+
     menu = UI.menu("File")
     add_menu_item(menu, "Save in Legacy Format", menu_index) { legacy_save }
   end
-  
+
 end
 end

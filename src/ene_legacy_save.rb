@@ -1,4 +1,4 @@
-require 'extensions.rb'
+require "extensions.rb"
 
 # Eneroth Extensions
 module Eneroth

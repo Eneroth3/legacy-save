@@ -9,3 +9,5 @@ using SketchUp Make, which stopped being developed after version 2017, you may
 find this extension useful.
 
 Activated from **File > Save in Legacy Format**.
+
+Source code available at [Github](https://github.com/Eneroth3/legacy-save).

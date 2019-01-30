@@ -60,7 +60,7 @@ module LegacySave
   #
   # @return [Integer] identifier of menu item.
   def self.add_menu_item(menu, name, position = nil, &block)
-    if position && Sketchup.platform == :platform_win && Sketchup.version.to_i >= 16
+    if position && Sketchup.version.to_i >= 16
       menu.add_item(name, position, &block)
     else
       menu.add_item(name, &block)
@@ -73,7 +73,29 @@ module LegacySave
   def self.menu_index
     # Entry should be placed in File menu after all native save related entries,
     # but before revert.
-    position = 7
+    #
+    # Win:
+    #   New
+    #   Open...
+    #   ---
+    #   Save
+    #   Save As...
+    #   Save A Copy As...
+    #   Save As Template...
+    #   <-- Here
+    #
+    # Mac:
+    #   New
+    #   Open...
+    #   Open Recent
+    #   ---
+    #   Close
+    #   Save
+    #   Save As...
+    #   Save A Copy As...
+    #   Save As Template...
+    #   <-- Here
+    position = Sketchup.platform == :platform_win ?  7 : 9
 
     # Move one step down if Eneroth Open Newer Version is present, as its entry
     # is located further up in the Open section.

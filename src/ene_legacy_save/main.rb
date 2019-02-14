@@ -41,8 +41,13 @@ module LegacySave
       return
     end
 
-    version = version_param(version(path))
-    Sketchup.active_model.save(path, version)
+    version = version(path)
+    if version.to_i == Sketchup.version.to_i
+      Sketchup.active_model.save(path)
+    else
+      version_id = version_param(version)
+      Sketchup.active_model.save(path, version_id)
+    end
   rescue StandardError => e
     UI.messagebox("Save Error\n\n#{e.message}")
   end

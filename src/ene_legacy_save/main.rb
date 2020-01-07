@@ -110,6 +110,7 @@ module LegacySave
       position += 1
     end
 
+    # SketchUp 2019 adds "Open from template...".
     position += 1 if Sketchup.version.to_i > 18
 
     position

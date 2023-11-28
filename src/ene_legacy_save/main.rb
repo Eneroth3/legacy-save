@@ -42,7 +42,8 @@ module LegacySave
     end
 
     version = version(path)
-    if version.to_i == Sketchup.version.to_i
+    if version.to_i == Sketchup.version.to_i || version.to_i > 21
+      # Sketchup started using "versionless" file format in version 2021.
       Sketchup.active_model.save(path)
     else
       version_id = version_param(version)

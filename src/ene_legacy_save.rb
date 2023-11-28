@@ -17,9 +17,9 @@ module LegacySave
     File.join(PLUGIN_DIR, "main")
   )
   EXTENSION.creator     = "Eneroth3"
-  EXTENSION.description = "Quickly saves model to a legacy Sketchup format."
-  EXTENSION.version     = "1.0.1"
-  EXTENSION.copyright   = "2019, #{EXTENSION.creator}"
+  EXTENSION.description = "Quickly saves model to a legacy SketchUp format."
+  EXTENSION.version     = "1.0.2"
+  EXTENSION.copyright   = "2023, #{EXTENSION.creator}"
   Sketchup.register_extension(EXTENSION, true)
 
 end
